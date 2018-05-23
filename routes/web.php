@@ -14,10 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('token',function(){
+    return \Illuminate\Support\Facades\Auth::user()->createToken('test');
+});
 
 Auth::routes();
 

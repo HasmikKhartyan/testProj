@@ -13,7 +13,8 @@ use App\User;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Auth::routes();
+
+//Auth::routes();
 //Route::group(['middleware' => 'auth:api'], function(){
     Route::get('users/{user}/notes/{account_id?}','UserNotesController@index')->middleware('before-action:list-note');
     Route::post('users/{user}/notes', 'UserNotesController@store')->middleware('before-action:create-note');
@@ -40,6 +41,6 @@ Auth::routes();
 
 Route::middleware('auth:api')
     ->get('/user', function (Request $request) {
-        dd($request->user());
+
         return $request->user();
     });
