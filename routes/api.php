@@ -13,25 +13,33 @@ use App\User;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-//Route::group(['middleware' => 'auth'], function(){
-    Route::get('users/{user}/notes/','UserNotesController@index');
-    Route::post('users/{user}/notes', 'UserNotesController@store');
-    Route::delete('users/{user}/notes/{note}', 'UserNotesController@delete');
-    Route::put('users/{user}/notes/{note}','UserNotesController@update');
+Auth::routes();
+//Route::group(['middleware' => 'auth:api'], function(){
+    Route::get('users/{user}/notes/{account_id?}','UserNotesController@index')->middleware('before-action:list-note');
+    Route::post('users/{user}/notes', 'UserNotesController@store')->middleware('before-action:create-note');
+    Route::delete('users/{user}/notes/{note}', 'UserNotesController@delete')->middleware('before-action:delete-note');
+    Route::put('users/{user}/notes/{note}','UserNotesController@update')->middleware('before-action:update-note');
 //});
 //Route::post('login', 'Auth\LoginController@login');
 //Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 ////Route::post('login', 'AuthController@login');
-//
-//
 
-//Route::get('users/{user}/notes/',function (Request $request,User $user) {
-//    var_dump($user->hasAccess(['create-note']));
+//Route::get('users/{user}/notes',function (Request $request,User $user) {
+
+//    $accountId = 1;
+//   $user1  = new User();
+//////    $user->hasAccess();
+//////    $userAccount = User::get($accountId);
+//////    $gr = 'publish-note';
+//$ee = 'create-note';
+//  var_dump($user1->hasAccess([$ee],$accountId));
 //    exit;
-//    return $request->user()->hasAccess(['create-note']);
+//    return $request->user()->hasAccess(['publish-note']);
 //} );//'UserNotesController@index'
-//
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+
+
+Route::middleware('auth:api')
+    ->get('/user', function (Request $request) {
+        dd($request->user());
+        return $request->user();
+    });

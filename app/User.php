@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -39,11 +40,12 @@ class User extends Authenticatable
     /**
      * Checks if User has access to $permissions.
      */
-    public function hasAccess(array $permissions)
+    public function hasAccess(array $permissions, $userid)
     {
-        return true;
+       $user = User::find($userid) ?? $this;
         // check if the permission is available in any role
-        foreach ($this->roles as $role) {
+        foreach ($user->roles as $role) {
+
             if($role->hasAccess($permissions)) {
                 return true;
             }

@@ -20,16 +20,15 @@ class Role extends Model
 
     public function hasAccess(array $permissions)
     {
-        return true;
-//        foreach ($permissions as $permission) {
-//            if ($this->hasPermission($permission))
-//                return true;
-//        }
-//        return false;
+        foreach ($permissions as $permission) {
+            if ($this->hasPermission($permission))
+                return true;
+        }
+        return false;
     }
 
     private function hasPermission( $permission)
     {
-        return ($this->permissions[$permission]) ? $this->permissions[$permission]: false;
+          return  $this->permissions[$permission] ?? false;
     }
 }

@@ -9,7 +9,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
-
+use App\User;
+use Illuminate\Routing\Route;
 /**
  * Description of BeforeMiddleware
  *
@@ -19,40 +20,24 @@ class BeforeMiddleware
 {
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
-            return response('Unauthorized.', 401);
+
+        $accountId = $request->get('account_id')?? $request->route()->parameter('account_id') ?? null;
+        $user = new User();
+        if($accountId) {
+            if (!$user->hasAccess([$guard], $accountId)) {
+                return response('You have no ' . $guard . ' accsess', 401);
+            }
+            return $next($request);
+        }else{
+            return response('Pass your account id', 401);
         }
 
-        return $next($request);
-    }
-//    public function handle($request, Closure $next)
-//    {
-//        // Do Stuff
-//        if(!Auth::check()){
-//            return "please login";
+//        if (!Auth::check())
+//        {
+//            $id = Auth::user()->getId();
+//            return response('Unauthorized.'.$id, 401);
 //        }
-//
-////        if(!Auth::user()->access){
-////            return redirect('dashboard');
-////        }
-////        $requester_id     = $request->get('user_id');
-////        $client_id        = $request->get('client_id');
-////        $data['get']      = $_GET;
-////        $data['post']     = $_POST;
-////        $data['request']      = $request->all();
-////        $route            = $request->route();
-////        $controllerAction = (isset($route[1]) && isset($route[1]['uses']) ? $route[1]['uses']
-////                : null );
-////
-////        \App\Models\v2\Log::createLog([
-////            'type' => 'input',
-////            'ip' => $request->ip(),
-////            'requester_id' => $requester_id,
-////            'client_id' => $client_id,
-////            'controller_action' => $controllerAction,
-////            'data' => \GuzzleHttp\json_encode($data)
-////        ]);
-//
-//        return $next($request);
-//    }
+
+
+    }
 }

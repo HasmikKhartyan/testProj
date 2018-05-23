@@ -7,10 +7,24 @@ use Illuminate\Http\Request;
 
 use App\User;
 
+use Auth;
 
+
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Contracts\Auth\Guard;
 class UserNotesController extends Controller
 {
-    public function index(User $user)
+    protected $currentUser;
+
+    use DispatchesJobs, ValidatesRequests;
+
+    public function __construct(Guard $auth)
+    {
+        $this->currentUser = $auth->user();
+    }
+    public function index(User $user,Guard $auth)
     {
         $userNotes = User::find($user->id)->notes;
         return $userNotes;

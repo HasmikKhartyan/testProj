@@ -25,23 +25,23 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-//        $this->registerNotePolicies();
+      // $this->registerNotePolicies();
 
     }
-    public function registerNotePolicies()
-    {
-        Gate::define('create-note', function ($user) {
-           return true;
-            return $user->hasAccess(['create-note']);
-        });
-        Gate::define('update-note', function ($user, Note $note) {
-            return $user->hasAccess(['update-note']) or $user->id == $note->user_id;
-        });
-        Gate::define('publish-note', function ($user) {
-            return $user->hasAccess(['publish-note']);
-        });
-        Gate::define('see-all-drafts', function ($user) {
-            return $user->inRole('editor');
-        });
-    }
+//    public function registerNotePolicies()
+//    {
+//        Gate::define('create-note', function ($user) {
+//
+//           return $user->hasAccess(['create-note']);
+//        });
+//        Gate::define('update-note', function ($user, Note $note) {
+//            return $user->hasAccess(['update-note']) or $user->id == $note->user_id;
+//        });
+//        Gate::define('publish-note', function ($user) {
+//            return $user->hasAccess(['publish-note']);
+//        });
+//        Gate::define('see-all-drafts', function ($user) {
+//            return $user->inRole('editor');
+//        });
+//    }
 }
