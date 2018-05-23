@@ -20,8 +20,8 @@ class BeforeMiddleware
 {
     public function handle($request, Closure $next, $guard = null)
     {
-
-        $accountId = $request->get('account_id')?? $request->route()->parameter('account_id') ?? null;
+//      $accountId = $request->get('account_id')?? $request->route()->parameter('account_id') ?? null;
+        $accountId  = $request->user()->id ?? null;
         $user = new User();
         if($accountId) {
             if (!$user->hasAccess([$guard], $accountId)) {
@@ -29,14 +29,10 @@ class BeforeMiddleware
             }
             return $next($request);
         }else{
-            return response('Pass your account id', 401);
+            return response('Wrong token', 401);
         }
 
-//        if (!Auth::check())
-//        {
-//            $id = Auth::user()->getId();
-//            return response('Unauthorized.'.$id, 401);
-//        }
+
 
 
     }

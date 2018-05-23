@@ -15,12 +15,12 @@ use App\User;
 */
 
 //Auth::routes();
-//Route::group(['middleware' => 'auth:api'], function(){
+Route::group(['middleware' => 'auth:api'], function(){
     Route::get('users/{user}/notes/{account_id?}','UserNotesController@index')->middleware('before-action:list-note');
     Route::post('users/{user}/notes', 'UserNotesController@store')->middleware('before-action:create-note');
     Route::delete('users/{user}/notes/{note}', 'UserNotesController@delete')->middleware('before-action:delete-note');
     Route::put('users/{user}/notes/{note}','UserNotesController@update')->middleware('before-action:update-note');
-//});
+});
 //Route::post('login', 'Auth\LoginController@login');
 //Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 ////Route::post('login', 'AuthController@login');
