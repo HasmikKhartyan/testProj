@@ -14,9 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('token',function(){
-    return \Illuminate\Support\Facades\Auth::user()->createToken('test');
-});
 
 Auth::routes();
 
